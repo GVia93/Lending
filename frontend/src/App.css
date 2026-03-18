@@ -1,0 +1,75 @@
+/* Animation utilities */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes countUp {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Hero overlay */
+.hero-overlay {
+    background: linear-gradient(180deg, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.9) 100%);
+}
+
+/* Bento grid hover */
+.bento-card {
+    transition: transform 0.3s ease-out, border-color 0.3s ease-out;
+}
+.bento-card:hover {
+    transform: scale(1.02);
+    border-color: #F97316;
+}
+
+/* Calculator panel */
+.calc-panel {
+    background: #171717;
+    border: 1px solid #262626;
+}
+
+/* Progress bar orange */
+.progress-orange [data-state="complete"] {
+    background: #F97316;
+}
+
+/* Price highlight */
+.price-highlight {
+    text-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+}
+
+/* Technical corner markers */
+.corner-marker {
+    position: relative;
+}
+.corner-marker::before,
+.corner-marker::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-color: #F97316;
+}
+.corner-marker::before {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid;
+    border-left: 2px solid;
+}
+.corner-marker::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+}

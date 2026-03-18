@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 0 0% 4%;
+        --foreground: 0 0% 100%;
+        --card: 0 0% 7%;
+        --card-foreground: 0 0% 100%;
+        --popover: 0 0% 7%;
+        --popover-foreground: 0 0% 100%;
+        --primary: 24 95% 53%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 222 47% 11%;
+        --secondary-foreground: 0 0% 100%;
+        --muted: 0 0% 15%;
+        --muted-foreground: 0 0% 64%;
+        --accent: 24 95% 53%;
+        --accent-foreground: 0 0% 100%;
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 0 0% 15%;
+        --input: 0 0% 15%;
+        --ring: 24 95% 53%;
+        --radius: 0.5rem;
+    }
+}
+
+@layer utilities {
+    .border-border {
+        border-color: hsl(var(--border));
+    }
+
+    .bg-background {
+        background-color: hsl(var(--background));
+    }
+
+    .text-foreground {
+        color: hsl(var(--foreground));
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+        font-family: 'Inter', sans-serif;
+        font-weight: 400;
+        margin: 0;
+        min-height: 100vh;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+    }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0A0A0A;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #262626;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #404040;
+}
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Technical mono font for numbers */
+.font-mono-tech {
+    font-family: 'JetBrains Mono', monospace;
+}
