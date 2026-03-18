@@ -13,6 +13,7 @@ import {
 } from "./ui/select";
 import axios from "axios";
 import { toast } from "sonner";
+import useAnalytics from "../hooks/useAnalytics";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -21,6 +22,8 @@ export default function ContactSection({ services }) {
   const [phone, setPhone] = useState("");
   const [serviceType, setServiceType] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const { trackContactFormSubmit, trackPhoneClick } = useAnalytics();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,6 +31,10 @@ export default function ContactSection({ services }) {
       toast.error("Пожалуйста, заполните все поля");
       return;
     }
+    
+    // Аналитика: отправка контактной формы
+    trackContactFormSubmit(serviceType);
+    
     setIsSubmitting(true);
     try {
       await axios.post(`${API}/contact`, {
@@ -72,6 +79,7 @@ export default function ContactSection({ services }) {
             <div className="space-y-6">
               <a
                 href="tel:+78001234567"
+                onClick={() => trackPhoneClick('contact_section')}
                 className="flex items-center gap-4 group"
                 data-testid="contact-phone"
               >

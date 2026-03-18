@@ -212,6 +212,111 @@ yarn start
 
 ---
 
+## 🚀 CI/CD и деплой
+
+Проект настроен для автоматического деплоя через **GitHub Actions** с поддержкой **staging** и **production** окружений.
+
+### 🌍 Окружения:
+
+#### **Production (main)**
+- **Триггер:** Push в `main` ветку
+- **URL:** https://m-stroy.ru
+- **Workflow:** `.github/workflows/deploy.yml`
+
+#### **Staging (develop)**
+- **Триггер:** Pull Request в `develop` ветку
+- **URL:** https://staging.m-stroy.ru
+- **Workflow:** `.github/workflows/deploy-staging.yml`
+- **Автокомментарий:** Ссылка на staging в PR
+
+---
+
+### Quick Start для деплоя:
+
+#### **1. Настройка Production**
+
+**GitHub Secrets:**
+- `SSH_HOST`, `SSH_USERNAME`, `SSH_PRIVATE_KEY`
+- `DEPLOY_PATH`, `REACT_APP_BACKEND_URL`
+- `GA4_MEASUREMENT_ID`, `YANDEX_METRIKA_ID`
+
+**Автоматический деплой:**
+```bash
+git add .
+git commit -m "Your changes"
+git push origin main
+```
+
+---
+
+#### **2. Настройка Staging**
+
+**GitHub Secrets:**
+- `STAGING_SSH_HOST`, `STAGING_SSH_USERNAME`, `STAGING_SSH_PRIVATE_KEY`
+- `STAGING_DEPLOY_PATH`, `STAGING_BACKEND_URL`
+- `STAGING_URL`
+
+**Workflow с PR:**
+```bash
+# 1. Создать feature ветку
+git checkout -b feature/my-feature
+
+# 2. Сделать изменения и закоммитить
+git add .
+git commit -m "feat: add feature"
+git push origin feature/my-feature
+
+# 3. Создать PR в develop через GitHub
+# → Автоматический деплой на staging
+# → Комментарий в PR со ссылкой на staging
+
+# 4. Протестировать на staging.m-stroy.ru
+
+# 5. Мердж в develop → затем PR в main → production
+```
+
+---
+
+### 📚 Документация:
+- **[CICD_DOCUMENTATION.md](CICD_DOCUMENTATION.md)** - Production CI/CD
+- **[STAGING_DOCUMENTATION.md](STAGING_DOCUMENTATION.md)** - Staging окружение
+- **[SEO_DOCUMENTATION.md](SEO_DOCUMENTATION.md)** - SEO оптимизация
+- **[ANALYTICS_DOCUMENTATION.md](ANALYTICS_DOCUMENTATION.md)** - Аналитика
+
+### Workflows:
+- `.github/workflows/deploy.yml` - Production (push в main)
+- `.github/workflows/deploy-staging.yml` - Staging (PR в develop)
+- `.github/workflows/test.yml` - Тесты для Pull Requests
+
+---
+
+## 📊 Аналитика
+
+Проект интегрирован с:
+- ✅ **Google Analytics 4** - отслеживание поведения пользователей
+- ✅ **Яндекс.Метрика** - вебвизор, карты кликов
+
+Отслеживаемые события: 15+ типов (калькулятор, формы, клики на телефон, просмотры страниц и т.д.)
+
+---
+
+## 🐳 Docker
+
+Для запуска через Docker:
+
+```bash
+# Сборка и запуск
+docker-compose up -d
+
+# Просмотр логов
+docker-compose logs -f
+
+# Остановка
+docker-compose down
+```
+
+---
+
 ## Лицензия
 
 Проект является собственностью компании М-СТРОЙ.

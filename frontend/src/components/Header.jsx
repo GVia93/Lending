@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "./ui/button";
+import useAnalytics from "../hooks/useAnalytics";
 
 const NAV_LINKS = [
   { label: "Услуги", href: "#services" },
@@ -13,6 +14,7 @@ const NAV_LINKS = [
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { trackPhoneClick, trackCTAClick } = useAnalytics();
 
   useEffect(() => {
     const handler = () => setIsScrolled(window.scrollY > 50);
@@ -24,6 +26,15 @@ export default function Header() {
     setMobileOpen(false);
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handlePhoneClick = () => {
+    trackPhoneClick('header');
+  };
+
+  const handleCTAClick = () => {
+    trackCTAClick('calculator_header', 'header');
+    scrollTo("#calculator");
   };
 
   return (
@@ -62,13 +73,17 @@ export default function Header() {
 
           {/* CTA + Mobile */}
           <div className="flex items-center gap-3">
-            <a href="tel:+78001234567" className="hidden sm:flex items-center gap-2 text-sm text-neutral-400 hover:text-orange-500 transition-colors">
+            <a 
+              href="tel:+78001234567" 
+              onClick={handlePhoneClick}
+              className="hidden sm:flex items-center gap-2 text-sm text-neutral-400 hover:text-orange-500 transition-colors"
+            >
               <Phone className="w-4 h-4" />
               <span className="font-mono-tech">8 (800) 123-45-67</span>
             </a>
             <Button
               data-testid="header-cta-button"
-              onClick={() => scrollTo("#calculator")}
+              onClick={handleCTAClick}
               className="hidden sm:inline-flex bg-orange-500 hover:bg-orange-600 text-white font-semibold px-5"
             >
               Рассчитать
@@ -98,7 +113,7 @@ export default function Header() {
               </button>
             ))}
             <Button
-              onClick={() => scrollTo("#calculator")}
+              onClick={handleCTAClick}
               className="mt-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold w-full"
             >
               Рассчитать стоимость
