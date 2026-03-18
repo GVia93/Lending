@@ -1,6 +1,7 @@
-import './App.css'; // Убрали @
+import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from './pages/LandingPage'; // Убрали @
+import LandingPage from './pages/LandingPage';
+import ServicePage from './pages/ServicePage';
 import { Toaster } from "sonner";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         />
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/services/:slug" element={<ServicePage />} />
         </Routes>
       </BrowserRouter>
     </div>

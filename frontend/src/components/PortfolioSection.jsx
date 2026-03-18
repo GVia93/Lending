@@ -16,7 +16,7 @@ const CATEGORY_LABELS = {
   demolition: "Демонтаж",
 };
 
-export default function PortfolioSection({ portfolio }) {
+export default function PortfolioSection({ portfolio, hideFilters = false }) {
   const [selectedItem, setSelectedItem] = useState(null);
   const [filter, setFilter] = useState("all");
 
@@ -28,40 +28,44 @@ export default function PortfolioSection({ portfolio }) {
   return (
     <section id="portfolio" className="py-20 lg:py-28 bg-[#0A0A0A]" data-testid="portfolio-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-10"
-        >
-          <span className="text-orange-500 text-sm uppercase tracking-widest font-semibold">Портфолио</span>
-          <h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-3"
-            style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
-            data-testid="portfolio-heading"
+        {!hideFilters && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-10"
           >
-            НАШИ ПРОЕКТЫ
-          </h2>
-        </motion.div>
+            <span className="text-orange-500 text-sm uppercase tracking-widest font-semibold">Портфолио</span>
+            <h2
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-3"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+              data-testid="portfolio-heading"
+            >
+              НАШИ ПРОЕКТЫ
+            </h2>
+          </motion.div>
+        )}
 
         {/* Filter tabs */}
-        <div className="flex flex-wrap gap-2 mb-8" data-testid="portfolio-filters">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              data-testid={`portfolio-filter-${cat}`}
-              className={`px-4 py-2 text-sm uppercase tracking-wider font-medium transition-all duration-200 border ${
-                filter === cat
-                  ? "bg-orange-500 border-orange-500 text-white"
-                  : "border-neutral-700 text-neutral-400 hover:text-white hover:border-neutral-500"
-              }`}
-            >
-              {cat === "all" ? "Все" : CATEGORY_LABELS[cat] || cat}
-            </button>
-          ))}
-        </div>
+        {!hideFilters && (
+          <div className="flex flex-wrap gap-2 mb-8" data-testid="portfolio-filters">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setFilter(cat)}
+                data-testid={`portfolio-filter-${cat}`}
+                className={`px-4 py-2 text-sm uppercase tracking-wider font-medium transition-all duration-200 border ${
+                  filter === cat
+                    ? "bg-orange-500 border-orange-500 text-white"
+                    : "border-neutral-700 text-neutral-400 hover:text-white hover:border-neutral-500"
+                }`}
+              >
+                {cat === "all" ? "Все" : CATEGORY_LABELS[cat] || cat}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Gallery grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" data-testid="portfolio-grid">

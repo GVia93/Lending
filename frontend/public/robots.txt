@@ -1,3 +1,28 @@
-# https://www.robotstxt.org/robotstxt.html
+# М-СТРОЙ - Robots.txt
+# https://m-stroy.ru/robots.txt
+
 User-agent: *
-Disallow:
+Allow: /
+Allow: /services/
+
+# Sitemap
+Sitemap: https://m-stroy.ru/sitemap.xml
+
+# Yandex
+User-agent: Yandex
+Allow: /
+Crawl-delay: 1
+
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Правила для других ботов
+User-agent: *
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+
+# Host (для Yandex)
+Host: https://m-stroy.ru
