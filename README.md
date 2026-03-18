@@ -214,42 +214,78 @@ yarn start
 
 ## 🚀 CI/CD и деплой
 
-Проект настроен для автоматического деплоя через **GitHub Actions**.
+Проект настроен для автоматического деплоя через **GitHub Actions** с поддержкой **staging** и **production** окружений.
+
+### 🌍 Окружения:
+
+#### **Production (main)**
+- **Триггер:** Push в `main` ветку
+- **URL:** https://m-stroy.ru
+- **Workflow:** `.github/workflows/deploy.yml`
+
+#### **Staging (develop)**
+- **Триггер:** Pull Request в `develop` ветку
+- **URL:** https://staging.m-stroy.ru
+- **Workflow:** `.github/workflows/deploy-staging.yml`
+- **Автокомментарий:** Ссылка на staging в PR
+
+---
 
 ### Quick Start для деплоя:
 
-1. **Настройка GitHub Secrets** (обязательно перед первым деплоем):
-   - `SSH_HOST` - IP или домен сервера
-   - `SSH_USERNAME` - имя пользователя SSH
-   - `SSH_PRIVATE_KEY` - приватный SSH ключ
-   - `DEPLOY_PATH` - путь к проекту на сервере
-   - `REACT_APP_BACKEND_URL` - URL backend API
-   - `GA4_MEASUREMENT_ID` - Google Analytics ID
-   - `YANDEX_METRIKA_ID` - Яндекс.Метрика ID
+#### **1. Настройка Production**
 
-2. **Автоматический деплой**:
-   ```bash
-   git add .
-   git commit -m "Your changes"
-   git push origin main
-   ```
-   
-   GitHub Actions автоматически:
-   - ✅ Запустит тесты
-   - ✅ Соберёт frontend
-   - ✅ Задеплоит на VPS
-   - ✅ Перезапустит сервисы
+**GitHub Secrets:**
+- `SSH_HOST`, `SSH_USERNAME`, `SSH_PRIVATE_KEY`
+- `DEPLOY_PATH`, `REACT_APP_BACKEND_URL`
+- `GA4_MEASUREMENT_ID`, `YANDEX_METRIKA_ID`
 
-3. **Ручной деплой** (через GitHub UI):
-   - **Actions** → **Deploy to Production** → **Run workflow**
+**Автоматический деплой:**
+```bash
+git add .
+git commit -m "Your changes"
+git push origin main
+```
+
+---
+
+#### **2. Настройка Staging**
+
+**GitHub Secrets:**
+- `STAGING_SSH_HOST`, `STAGING_SSH_USERNAME`, `STAGING_SSH_PRIVATE_KEY`
+- `STAGING_DEPLOY_PATH`, `STAGING_BACKEND_URL`
+- `STAGING_URL`
+
+**Workflow с PR:**
+```bash
+# 1. Создать feature ветку
+git checkout -b feature/my-feature
+
+# 2. Сделать изменения и закоммитить
+git add .
+git commit -m "feat: add feature"
+git push origin feature/my-feature
+
+# 3. Создать PR в develop через GitHub
+# → Автоматический деплой на staging
+# → Комментарий в PR со ссылкой на staging
+
+# 4. Протестировать на staging.m-stroy.ru
+
+# 5. Мердж в develop → затем PR в main → production
+```
+
+---
 
 ### 📚 Документация:
-- **[CICD_DOCUMENTATION.md](CICD_DOCUMENTATION.md)** - Полное руководство по CI/CD
+- **[CICD_DOCUMENTATION.md](CICD_DOCUMENTATION.md)** - Production CI/CD
+- **[STAGING_DOCUMENTATION.md](STAGING_DOCUMENTATION.md)** - Staging окружение
 - **[SEO_DOCUMENTATION.md](SEO_DOCUMENTATION.md)** - SEO оптимизация
-- **[ANALYTICS_DOCUMENTATION.md](ANALYTICS_DOCUMENTATION.md)** - Google Analytics и Яндекс.Метрика
+- **[ANALYTICS_DOCUMENTATION.md](ANALYTICS_DOCUMENTATION.md)** - Аналитика
 
 ### Workflows:
-- `.github/workflows/deploy.yml` - Основной деплой (push в main)
+- `.github/workflows/deploy.yml` - Production (push в main)
+- `.github/workflows/deploy-staging.yml` - Staging (PR в develop)
 - `.github/workflows/test.yml` - Тесты для Pull Requests
 
 ---
