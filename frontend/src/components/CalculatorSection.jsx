@@ -9,7 +9,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import axios from "axios";
 import { toast } from "sonner";
-//import { formatPrice } from "../lib/utils";
+import useAnalytics from "../hooks/useAnalytics";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -32,6 +32,13 @@ export default function CalculatorSection({ services, prices }) {
   const [contactName, setContactName] = useState("");
   const [contactPhone, setContactPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { 
+    trackCalculatorStart, 
+    trackCalculatorStep, 
+    trackCalculatorComplete,
+    trackCalculatorFormSubmit 
+  } = useAnalytics();
 
   const progressValue = ((step + 1) / STEP_LABELS.length) * 100;
 
@@ -70,6 +77,9 @@ export default function CalculatorSection({ services, prices }) {
       : [6];
     setHeight(heightOpts[0] || 6);
     setStep(1);
+    
+    // Аналитика: начало работы с калькулятором
+    trackCalculatorStart(service.slug);
   };
 
   const toggleOption = (optId) => {
@@ -83,6 +93,13 @@ export default function CalculatorSection({ services, prices }) {
       toast.error("Пожалуйста, заполните имя и телефон");
       return;
     }
+    
+    // Аналитика: отправка формы из калькулятора
+    trackCalculatorFormSubmit({
+      service: selectedService?.slug,
+      totalPrice: calculation?.total
+    });
+    
     setIsSubmitting(true);
     try {
       await axios.post(`${API}/contact`, {
@@ -281,7 +298,10 @@ export default function CalculatorSection({ services, prices }) {
 
                 <div className="flex gap-3 mt-8">
                   <Button
-                    onClick={() => setStep(0)}
+                    onClick={() => {
+                      setStep(0);
+                      trackCalculatorStep(0, selectedService?.slug);
+                    }}
                     variant="outline"
                     className="border-neutral-700 text-neutral-300 hover:bg-neutral-800"
                     data-testid="calc-back-to-0"
@@ -289,7 +309,10 @@ export default function CalculatorSection({ services, prices }) {
                     <ChevronLeft className="w-4 h-4 mr-1" /> Назад
                   </Button>
                   <Button
-                    onClick={() => setStep(2)}
+                    onClick={() => {
+                      setStep(2);
+                      trackCalculatorStep(2, selectedService?.slug, { area, height });
+                    }}
                     className="bg-orange-500 hover:bg-orange-600 text-white font-semibold"
                     data-testid="calc-next-to-2"
                   >
@@ -361,7 +384,10 @@ export default function CalculatorSection({ services, prices }) {
 
                 <div className="flex gap-3 mt-8">
                   <Button
-                    onClick={() => setStep(1)}
+                    onClick={() => {
+                      setStep(1);
+                      trackCalculatorStep(1, selectedService?.slug);
+                    }}
                     variant="outline"
                     className="border-neutral-700 text-neutral-300 hover:bg-neutral-800"
                     data-testid="calc-back-to-1"
@@ -369,7 +395,20 @@ export default function CalculatorSection({ services, prices }) {
                     <ChevronLeft className="w-4 h-4 mr-1" /> Назад
                   </Button>
                   <Button
-                    onClick={() => setStep(3)}
+                    onClick={() => {
+                      setStep(3);
+                      trackCalculatorStep(3, selectedService?.slug, { 
+                        area, 
+                        height, 
+                        options: selectedOptions 
+                      });
+                      trackCalculatorComplete({
+                        service: selectedService?.slug,
+                        area,
+                        height,
+                        totalPrice: calculation?.total
+                      });
+                    }}
                     className="bg-orange-500 hover:bg-orange-600 text-white font-semibold"
                     data-testid="calc-next-to-3"
                   >
