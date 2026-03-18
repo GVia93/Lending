@@ -71,3 +71,7 @@ backups/
 
 # Scripts
 scripts/
+-e 
+# Environment files
+*.env
+*.env.*
