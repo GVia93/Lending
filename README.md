@@ -212,6 +212,75 @@ yarn start
 
 ---
 
+## 🚀 CI/CD и деплой
+
+Проект настроен для автоматического деплоя через **GitHub Actions**.
+
+### Quick Start для деплоя:
+
+1. **Настройка GitHub Secrets** (обязательно перед первым деплоем):
+   - `SSH_HOST` - IP или домен сервера
+   - `SSH_USERNAME` - имя пользователя SSH
+   - `SSH_PRIVATE_KEY` - приватный SSH ключ
+   - `DEPLOY_PATH` - путь к проекту на сервере
+   - `REACT_APP_BACKEND_URL` - URL backend API
+   - `GA4_MEASUREMENT_ID` - Google Analytics ID
+   - `YANDEX_METRIKA_ID` - Яндекс.Метрика ID
+
+2. **Автоматический деплой**:
+   ```bash
+   git add .
+   git commit -m "Your changes"
+   git push origin main
+   ```
+   
+   GitHub Actions автоматически:
+   - ✅ Запустит тесты
+   - ✅ Соберёт frontend
+   - ✅ Задеплоит на VPS
+   - ✅ Перезапустит сервисы
+
+3. **Ручной деплой** (через GitHub UI):
+   - **Actions** → **Deploy to Production** → **Run workflow**
+
+### 📚 Документация:
+- **[CICD_DOCUMENTATION.md](CICD_DOCUMENTATION.md)** - Полное руководство по CI/CD
+- **[SEO_DOCUMENTATION.md](SEO_DOCUMENTATION.md)** - SEO оптимизация
+- **[ANALYTICS_DOCUMENTATION.md](ANALYTICS_DOCUMENTATION.md)** - Google Analytics и Яндекс.Метрика
+
+### Workflows:
+- `.github/workflows/deploy.yml` - Основной деплой (push в main)
+- `.github/workflows/test.yml` - Тесты для Pull Requests
+
+---
+
+## 📊 Аналитика
+
+Проект интегрирован с:
+- ✅ **Google Analytics 4** - отслеживание поведения пользователей
+- ✅ **Яндекс.Метрика** - вебвизор, карты кликов
+
+Отслеживаемые события: 15+ типов (калькулятор, формы, клики на телефон, просмотры страниц и т.д.)
+
+---
+
+## 🐳 Docker
+
+Для запуска через Docker:
+
+```bash
+# Сборка и запуск
+docker-compose up -d
+
+# Просмотр логов
+docker-compose logs -f
+
+# Остановка
+docker-compose down
+```
+
+---
+
 ## Лицензия
 
 Проект является собственностью компании М-СТРОЙ.
